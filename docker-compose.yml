@@ -5,15 +5,16 @@ volumes:
     driver: local
 
 services:
-#  frontend:
-#    container_name: ${PROJECT_NAME}_frontend
-#    build: ./
-#    volumes:
-#      - './frontend:/usr/src/app'
-#    ports:
-#      - '${FRONTEND_PORT}:3000'
-#    command: >
-#      bash -c "npm install && npm run start -- --host=0.0.0.0 --port=3000"
+  frontend:
+    container_name: ${PROJECT_NAME}_frontend
+    build: ./
+    volumes:
+      - './backend:/usr/src/app'
+      - '.env:/usr/src/.env'
+    ports:
+      - '${FRONTEND_PORT}:3000'
+    command: >
+      bash -c "cd Alfred/Core && npm install && npm run watch"
 
   backend:
     image: nginx:alpine
@@ -71,23 +72,3 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "${MYSQL_PORT}:3306"
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.1
-    container_name: ${PROJECT_NAME}_elasticsearch
-    environment:
-      - cluster.name=${PROJECT_NAME}_cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    ports:
-      - "${ELASTICSEARCH_PORT}:9200"
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.3.2
-    container_name: ${PROJECT_NAME}_kibana
-    ports:
-      - "${KIBANA_PORT}:5601"
