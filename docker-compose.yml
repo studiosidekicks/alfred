@@ -12,7 +12,7 @@ services:
       - './backend:/usr/src/app'
       - '.env:/usr/src/.env'
     ports:
-      - '${FRONTEND_PORT}:3000'
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     command: >
       bash -c "cd Alfred/Core && npm install && npm run watch"
 

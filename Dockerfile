@@ -5,3 +5,6 @@ WORKDIR /usr/src/app
 RUN npm install -g gulp webpack
 RUN npm install -g pngquant-bin node-sass --allow-root --unsafe-perm=true
 COPY ./backend .
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
